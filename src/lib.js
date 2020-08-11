@@ -1,1 +1,1 @@
-export * from './number'
+export * as v2 from './v2'

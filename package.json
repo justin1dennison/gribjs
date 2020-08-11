@@ -2,7 +2,7 @@
   "name": "node-library-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "main": "src/lib.js",
+  "main": "dist/lib.js",
   "files": [
     "dist/**"
   ],
@@ -13,8 +13,10 @@
     "clean": "rimraf dist/",
     "dev": "parcel watch src/lib.js",
     "prebuild": "npm run clean",
-    "build": "parcel build src/lib.js",
-    "lint": "eslint --ignore-path .gitignore --fix ."
+    "build": "parcel build -t node src/lib.js",
+    "prelint": "npm run format",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "format": "prettier --config .prettierrc --write src/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -31,11 +33,15 @@
     "eslint-plugin-standard": "^4.0.1",
     "esm": "^3.2.25",
     "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
     "rimraf": "^3.0.2"
   },
   "ava": {
     "require": [
       "esm"
     ]
+  },
+  "dependencies": {
+    "@justin1dennison/bytesjs": "^1.0.2"
   }
 }
