@@ -1,30 +1,13 @@
 import { ByteReader } from "@justin1dennison/bytesjs"
 import { promises as fs } from "fs"
-
-class ProductType {
-  constructor(type, value) {
-    this.type = type
-    this.value = value
-  }
-  inspect() {
-    return this.toString()
-  }
-  toString() {
-    return `ProductType.${this.type}` 
-  }
-  static from(n) {
-    switch (n) {
-      case 0:
-        return new ProductType("Meteorological", 0)
-      case 2:
-        return new ProductType("LandSurface", 2)
-      case 10:
-        return new ProductType("OceanGraphic", 10)
-      default:
-        return new ProductType(Symbol("ProductType.Unknown"), undefined)
-    }
-  }
-}
+import {
+  ProductType,
+  GribMasterTableVersionNumber,
+  GribLocalTableVersionNumber,
+  ReferenceTimeSignificance,
+  ProductionStatusOfData,
+  TypeOfData
+} from "../tables"
 
 export const indicator = (reader) => {
   const magic = reader.string({ length: 4 })
@@ -35,10 +18,58 @@ export const indicator = (reader) => {
   return { magic, productType, version, length, throwAway }
 }
 
+// Add Validation
+export const identification = (reader) => {
+  const length = reader.uint32()
+  const sectionNo = reader.int8()
+  const center = reader.uint16()
+  const subcenter = reader.uint16()
+  const gribMasterTableVersion = GribMasterTableVersionNumber.from(
+    reader.int8()
+  )
+  const gribLocalTableVersion = GribLocalTableVersionNumber.from(reader.int8())
+  const significanceReferenceTime = ReferenceTimeSignificance.from(
+    reader.int8()
+  )
+  const year = reader.uint16()
+  const month = reader.int8()
+  const day = reader.int8()
+  const hour = reader.int8()
+  const minute = reader.int8()
+  const second = reader.int8()
+  const productionStatusOfProcessedData = ProductionStatusOfData.from(
+    reader.int8()
+  )
+  const processedDataType = TypeOfData.from(reader.int8())
+  return {
+    length,
+    sectionNo,
+    center,
+    subcenter,
+    gribMasterTableVersion,
+    gribLocalTableVersion,
+    significanceReferenceTime,
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+    productionStatusOfProcessedData,
+    processedDataType,
+  }
+}
+
 export class Grib {
   constructor(buf) {
     this.reader = ByteReader.of(buf)
     this.indicator = indicator(this.reader)
+    this.identification = identification(this.reader)
+  }
+
+  get referenceDate() {
+    const { year, month, day, hour, minute, second } = this.identification
+    return new Date(year, month - 1, day, hour, minute, second)
   }
 
   static async fromFile(filepath) {
