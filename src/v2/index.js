@@ -60,11 +60,37 @@ export const identification = (reader) => {
   }
 }
 
+
+
+const local = (reader) => {
+   const length = reader.int32()
+   const numberOfSection = reader.uint8()
+   const localUse = reader.read(length)
+   return { length, numberOfSection, localUse }
+}
+
+
+
+const grid = (reader) => {
+   const length = reader.int32()
+   const numberOfSection = reader.int8()
+   const source = reader.int8()
+   const numberOfDataPoints = reader.int32()
+   const numberOfOptionalOctets = reader.int8()
+   const interpetationOfListOfNumbers = reader.int8()
+   const gridTemplateDefinitionNumber = reader.int16()
+   return { length, numberOfSection, source, numberOfDataPoints, numberOfOptionalOctets, interpetationOfListOfNumbers, gridTemplateDefinitionNumber }
+}
+
+
+
 export class Grib {
   constructor(buf) {
     this.reader = ByteReader.of(buf)
     this.indicator = indicator(this.reader)
     this.identification = identification(this.reader)
+    this.local = local(this.reader)
+    this.grid = grid(this.reader)
   }
 
   get referenceDate() {

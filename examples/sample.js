@@ -3,5 +3,5 @@
    const { v2: { Grib } } = require('../dist/lib')
    const grib = await Grib.fromFile(path.resolve(__dirname, '../data/sample.grib2'))
    console.log({ grib })
-   console.log(grib.referenceDate)
+   console.log(grib.local)
 })().catch(console.error)
