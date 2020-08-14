@@ -84,15 +84,3 @@ export const grid = (reader) => {
     gridTemplateDefinitionNumber,
   }
 }
-
-export const messages = (reader) => {
-  const ms = []
-  while (!reader.done()) {
-    const { magic, length } = indicator(reader)
-    reader.rewind(16) //
-    if (magic !== MAGIC_IDENTIFIER)
-      throw new InvalidMessageError("magic number is invlaid")
-    ms.push(Message.from(reader.read(length)))
-  }
-  return ms
-}

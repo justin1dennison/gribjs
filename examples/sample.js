@@ -2,5 +2,5 @@
    const path = require('path')
    const {  Grib } = require('../dist/lib')
    const ds = await Grib.fromFile(path.resolve(__dirname, '../data/sample.grib2'))
-   console.log({ ds })
+   console.log(ds.messages.map(m => m.date))
 })().catch(console.error)

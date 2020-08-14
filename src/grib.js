@@ -23,10 +23,12 @@ export default class Grib {
     this.reader = ByteReader.of(buf)
     this.messages = messages(this.reader)
   }
+
   static async fromFile(filepath) {
     const buffer = await fs.readFile(filepath)
     return new Grib(buffer)
   }
+
   [util.inspect.custom]() {
     const { messages } = this
     return { messages }
