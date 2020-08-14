@@ -42,6 +42,6 @@
     ]
   },
   "dependencies": {
-    "@justin1dennison/bytesjs": "^1.0.2"
+    "@justin1dennison/bytesjs": "^1.2.1"
   }
 }
