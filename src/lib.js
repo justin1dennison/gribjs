@@ -1,1 +1,1 @@
-export * as v2 from './v2'
+export { default as Grib } from "./grib"

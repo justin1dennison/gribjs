@@ -4,4 +4,4 @@ export { default as GribLocalTableVersionNumber } from "./grib-local-table-versi
 export { default as ReferenceTimeSignificance } from "./significance-of-reference-time"
 export { default as ProductionStatusOfData } from "./production-status-of-data"
 export { default as TypeOfData } from "./type-of-data"
-export { default as SourceOfGridDefinition } from './source-of-grid-definition'
+export { default as SourceOfGridDefinition } from "./source-of-grid-definition"
