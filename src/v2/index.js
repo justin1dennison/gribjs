@@ -6,7 +6,8 @@ import {
   GribLocalTableVersionNumber,
   ReferenceTimeSignificance,
   ProductionStatusOfData,
-  TypeOfData
+  TypeOfData,
+  SourceOfGridDefinition
 } from "../tables"
 
 export const indicator = (reader) => {
@@ -20,8 +21,8 @@ export const indicator = (reader) => {
 
 // Add Validation
 export const identification = (reader) => {
-  const length = reader.uint32()
-  const sectionNo = reader.int8()
+  const length = reader.int32()
+  const numberOfSection = reader.int8()
   const center = reader.uint16()
   const subcenter = reader.uint16()
   const gribMasterTableVersion = GribMasterTableVersionNumber.from(
@@ -43,7 +44,7 @@ export const identification = (reader) => {
   const processedDataType = TypeOfData.from(reader.int8())
   return {
     length,
-    sectionNo,
+    numberOfSection,
     center,
     subcenter,
     gribMasterTableVersion,
@@ -60,29 +61,31 @@ export const identification = (reader) => {
   }
 }
 
-
-
 const local = (reader) => {
-   const length = reader.int32()
-   const numberOfSection = reader.uint8()
-   const localUse = reader.read(length)
-   return { length, numberOfSection, localUse }
+  const length = reader.int32()
+  const numberOfSection = reader.uint8()
+  const localUse = reader.string({length: length - 5 })
+  return { length, numberOfSection, localUse }
 }
-
-
 
 const grid = (reader) => {
-   const length = reader.int32()
-   const numberOfSection = reader.int8()
-   const source = reader.int8()
-   const numberOfDataPoints = reader.int32()
-   const numberOfOptionalOctets = reader.int8()
-   const interpetationOfListOfNumbers = reader.int8()
-   const gridTemplateDefinitionNumber = reader.int16()
-   return { length, numberOfSection, source, numberOfDataPoints, numberOfOptionalOctets, interpetationOfListOfNumbers, gridTemplateDefinitionNumber }
+  const length = reader.int32()
+  const numberOfSection = reader.int8()
+  const source = SourceOfGridDefinition.from(reader.int8())
+  const numberOfDataPoints = reader.int32()
+  const numberOfOptionalOctets = reader.int8()
+  const interpetationOfListOfNumbers = reader.int8()
+  const gridTemplateDefinitionNumber = reader.int16()
+  return {
+    length,
+    numberOfSection,
+    source,
+    numberOfDataPoints,
+    numberOfOptionalOctets,
+    interpetationOfListOfNumbers,
+    gridTemplateDefinitionNumber,
+  }
 }
-
-
 
 export class Grib {
   constructor(buf) {
