@@ -104,3 +104,18 @@ export const product = (reader) => {
     remainder,
   }
 }
+
+export const data = (reader) => {
+  const length = reader.int32()
+  const numberOfSection = reader.int8()
+  const numberOfDataPoints = reader.uint32()
+  const dataRepresentationTemplateNumber = reader.int16()
+  const remainder = reader.read(length - 1 - 4 - 2)
+  return {
+    length,
+    numberOfSection,
+    numberOfDataPoints,
+    dataRepresentationTemplateNumber,
+    remainder,
+  }
+}
