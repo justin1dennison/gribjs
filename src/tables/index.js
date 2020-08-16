@@ -5,3 +5,5 @@ export { default as ReferenceTimeSignificance } from "./significance-of-referenc
 export { default as ProductionStatusOfData } from "./production-status-of-data"
 export { default as TypeOfData } from "./type-of-data"
 export { default as SourceOfGridDefinition } from "./source-of-grid-definition"
+export { default as InterpretationOfListOfNumbersEndOfSection3 } from './interpretation-of-list-number-end-of-section-3' 
+

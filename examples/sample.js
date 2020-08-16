@@ -1,6 +1,8 @@
 (async function main() {
    const path = require('path')
    const {  Grib } = require('../dist/lib')
-   const ds = await Grib.fromFile(path.resolve(__dirname, '../data/sample.grib2'))
-   console.log(ds.messages.map(m => m.date))
+   const filepath = path.resolve(__dirname, '../data/sample.grib2')
+   const ds = await Grib.fromFile(filepath)
+   console.log({ ds })
+   console.log(ds.messages[0])
 })().catch(console.error)

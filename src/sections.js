@@ -6,6 +6,7 @@ import {
   ProductionStatusOfData,
   TypeOfData,
   SourceOfGridDefinition,
+  InterpretationOfListOfNumbersEndOfSection3,
 } from "./tables"
 
 export const indicator = (reader) => {
@@ -72,7 +73,9 @@ export const grid = (reader) => {
   const source = SourceOfGridDefinition.from(reader.int8())
   const numberOfDataPoints = reader.int32()
   const numberOfOptionalOctets = reader.int8()
-  const interpetationOfListOfNumbers = reader.int8()
+  const interpetationOfListOfNumbers = InterpretationOfListOfNumbersEndOfSection3.from(
+    reader.int8()
+  )
   const gridTemplateDefinitionNumber = reader.int16()
   return {
     length,
