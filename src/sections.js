@@ -77,6 +77,7 @@ export const grid = (reader) => {
     reader.int8()
   )
   const gridTemplateDefinitionNumber = reader.int16()
+  const remainder = reader.read(length - 14) // TODO: need to work on grid defintion template
   return {
     length,
     numberOfSection,
@@ -85,5 +86,21 @@ export const grid = (reader) => {
     numberOfOptionalOctets,
     interpetationOfListOfNumbers,
     gridTemplateDefinitionNumber,
+    remainder,
+  }
+}
+
+export const product = (reader) => {
+  const length = reader.int32()
+  const numberOfSection = reader.int8()
+  const numberOfCoordinateValuesAfterTemplate = reader.int16()
+  const productTemplateDefinitionNumber = reader.int16()
+  const remainder = reader.read(length - 4 - 1 - 2 - 2) // need to work on product definition template
+  return {
+    length,
+    numberOfSection,
+    numberOfCoordinateValuesAfterTemplate,
+    productTemplateDefinitionNumber,
+    remainder,
   }
 }

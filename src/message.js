@@ -1,5 +1,5 @@
 import { ByteReader } from "@justin1dennison/bytesjs"
-import { indicator, identification, local, grid } from "./sections"
+import { indicator, identification, local, grid, product } from "./sections"
 
 export default class Message {
   constructor(buf) {
@@ -8,6 +8,7 @@ export default class Message {
     this.identification = identification(this.reader)
     this.local = local(this.reader)
     this.grid = grid(this.reader)
+    this.product = product(this.reader)
   }
 
   get date() {
