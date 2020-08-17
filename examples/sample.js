@@ -6,7 +6,7 @@
    }, {})
    const path = require('path')
    const {  Grib } = require('../dist/lib')
-   const filepath = path.resolve(__dirname, '../data/sample.grib2')
+   const filepath = path.resolve(__dirname, '../sample-data/sample.grib2')
    const ds = await Grib.fromFile(filepath)
    console.log(ds.messages.map(select('identification', 'indicator')).map(jsonify).join())
 })().catch(console.error)
