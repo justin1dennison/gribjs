@@ -105,7 +105,7 @@ export const product = (reader) => {
   }
 }
 
-export const data = (reader) => {
+export const dataRepresentation = (reader) => {
   const length = reader.int32()
   const numberOfSection = reader.int8()
   const numberOfDataPoints = reader.uint32()
