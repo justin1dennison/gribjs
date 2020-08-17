@@ -110,7 +110,7 @@ export const data = (reader) => {
   const numberOfSection = reader.int8()
   const numberOfDataPoints = reader.uint32()
   const dataRepresentationTemplateNumber = reader.int16()
-  const remainder = reader.read(length - 1 - 4 - 2)
+  const remainder = reader.read(length - 4 - 1 - 4 - 2) //TODO: template
   return {
     length,
     numberOfSection,
@@ -118,4 +118,13 @@ export const data = (reader) => {
     dataRepresentationTemplateNumber,
     remainder,
   }
+}
+
+export const bitmap = (reader) => {
+  console.log(reader)
+  const length = reader.int32()
+  const numberOfSection = reader.int8()
+  const indicator = reader.int8()
+  const remainder = reader.read(length - 4 - 1 - 1) //TODO: template
+  return { length, numberOfSection, indicator, remainder }
 }
