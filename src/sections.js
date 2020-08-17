@@ -9,7 +9,7 @@ import {
   InterpretationOfListOfNumbersEndOfSection3,
 } from "./tables"
 
-export const indicator = (reader) => {
+export const header = (reader) => {
   const magic = reader.string({ length: 4 })
   const throwAway = reader.uint16()
   const productType = ProductType.from(reader.uint8())

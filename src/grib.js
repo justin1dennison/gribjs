@@ -3,13 +3,13 @@ import { ByteReader } from "@justin1dennison/bytesjs"
 import { promises as fs } from "fs"
 import { InvalidMessageError } from "./errors"
 import { MAGIC_IDENTIFIER, HEADER_LENGTH } from "./constants"
-import { indicator } from "./sections"
+import { header } from "./sections"
 import Message from "./message"
 
 const messages = (reader) => {
   const ms = []
   while (!reader.done()) {
-    const { magic, length } = indicator(reader)
+    const { magic, length } = header(reader)
     reader.rewind(HEADER_LENGTH) //
     if (magic !== MAGIC_IDENTIFIER)
       throw new InvalidMessageError("magic number is invlaid")
