@@ -1,5 +1,14 @@
 import { ByteReader } from "@justin1dennison/bytesjs"
-import { indicator, identification, local, grid, product, dataRepresentation, bitmap } from "./sections"
+import {
+  indicator,
+  identification,
+  local,
+  grid,
+  product,
+  dataRepresentation,
+  bitmap,
+  data,
+} from "./sections"
 
 export default class Message {
   constructor(buf) {
@@ -11,6 +20,9 @@ export default class Message {
     this.product = product(this.reader)
     this.dataRepresentation = dataRepresentation(this.reader)
     this.bitmap = bitmap(this.reader)
+    // TODO: Figure out if the data section is optional
+    if (this.reader.buf.slice(this.reader.position, this.reader.position + 4).toString() !== "7777")
+      this.data = data(this.reader)
   }
 
   get date() {

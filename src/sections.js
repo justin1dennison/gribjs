@@ -77,7 +77,7 @@ export const grid = (reader) => {
     reader.int8()
   )
   const gridTemplateDefinitionNumber = reader.int16()
-  const remainder = reader.read(length - 14) // TODO: need to work on grid defintion template
+  const remainder = reader.read(length - 4 - 1 - 1 - 4 - 1 - 1 - 2) // TODO: need to work on grid defintion template
   return {
     length,
     numberOfSection,
@@ -107,24 +107,30 @@ export const product = (reader) => {
 
 export const dataRepresentation = (reader) => {
   const length = reader.int32()
-  const numberOfSection = reader.int8()
-  const numberOfDataPoints = reader.uint32()
-  const dataRepresentationTemplateNumber = reader.int16()
-  const remainder = reader.read(length - 4 - 1 - 4 - 2) //TODO: template
+  const numberOfSection = reader.uint8()
+  //const numberOfDataPoints = reader.uint32()
+  //const dataRepresentationTemplateNumber = reader.int16()
+  //const remainder = reader.read(length - 4 - 1 - 4 - 2) //TODO: template
   return {
     length,
     numberOfSection,
-    numberOfDataPoints,
-    dataRepresentationTemplateNumber,
-    remainder,
+    remainder: reader.read(length - 4 - 1).toString(),
+    //numberOfDataPoints,
+    //dataRepresentationTemplateNumber,
+    //remainder,
   }
 }
 
 export const bitmap = (reader) => {
-  console.log(reader)
   const length = reader.int32()
   const numberOfSection = reader.int8()
-  const indicator = reader.int8()
-  const remainder = reader.read(length - 4 - 1 - 1) //TODO: template
+  const indicator = length > 5 ? reader.int8() : undefined
+  const remainder =
+    indicator === 0 ? reader.read(length - 4 - 1 - 1) : undefined //TODO: template
   return { length, numberOfSection, indicator, remainder }
+}
+
+export const data = (reader) => {
+  const length = reader.string({ length: 4 })
+  return { length }
 }
