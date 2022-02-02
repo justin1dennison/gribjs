@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gribjs
+  annotations:
+    github.com/project-slug: justin1dennison/gribjs
+spec:
+  type: other
+  lifecycle: unknown
+  owner: self
